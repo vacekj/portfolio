@@ -1,0 +1,12 @@
+{
+	"App": {
+		"Menu": {
+			"what": "What I do",
+			"how": "How I do it",
+			"forwho": "For who",
+			"projects": "Projects",
+			"more": "More?",
+			"contact": "Contact"
+		}
+	}
+}

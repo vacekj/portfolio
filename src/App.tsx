@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
+import { I18nManager, useI18n } from "@shopify/react-i18n";
+
+import en from "./translations/en.json";
+import cs from "./translations/cs.json";
 
 function NavLink(props: React.ComponentProps<"a"> & { active?: boolean }) {
 	return (
 		<a
-			{...props}
-			className={`text-xl ${props.active ? "text-gray-900" : "text-gray-600"} ${
+			href={props.href}
+			className={`text-xl mb-1 ${props.active ? "text-gray-900" : "text-gray-600"} ${
 				props.className
 			}`}
-		/>
+		>
+			{props.children}
+		</a>
 	);
 }
 
@@ -49,7 +55,7 @@ function Project(props: { name: string; link: string }) {
 		<>
 			<a
 				href={props.link ?? ""}
-				className="p-2 mb-2 duration-100 ease-in-out self-start items-center hover:bg-blue-100 rounded"
+				className="p-2 mb-2 ml-4 duration-100 ease-in-out self-start items-center hover:bg-blue-100 rounded"
 			>
 				<svg
 					fill="none"
@@ -58,7 +64,7 @@ function Project(props: { name: string; link: string }) {
 					strokeLinejoin="round"
 					strokeWidth="2"
 					viewBox="0 0 24 24"
-					className="inline w-6 h-6 mr-4 ml-2 align-text-bottom text-gray-500"
+					className="inline w-6 h-6 mr-4 align-text-bottom text-gray-500"
 				>
 					<path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
 				</svg>
@@ -100,29 +106,75 @@ function Technology(props: React.ComponentProps<"div">) {
 	);
 }
 
-function App() {
+interface TranslateButtonProps {
+	onClick: (lang: string) => void;
+}
+function TranslateButton(props: TranslateButtonProps) {
+	const [lang, setLang] = useState("cs");
+
+	return (
+		<button
+			className="inline-block text-right mt-3"
+			onClick={() => {
+				const newLang = lang === "en" ? "cs" : "en";
+				setLang(newLang);
+				props.onClick(newLang);
+			}}
+		>
+			<svg
+				fill="none"
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth="2"
+				viewBox="0 0 24 24"
+				className="w-6 h-6 inline mr-2 text-gray-500"
+			>
+				<path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+			</svg>
+			<span className={`${lang === "en" ? "text-gray-900" : "text-gray-500"}`}>en</span>
+			<span className="mx-1 text-gray-500">/</span>
+			<span className={`${lang === "cs" ? "text-gray-900" : "text-gray-500"}`}>cs</span>
+		</button>
+	);
+}
+
+function App(props: { i18nmanager: I18nManager }) {
+	const [t] = useI18n({
+		id: "App",
+		translations(locale) {
+			return locale === "en" ? en : cs;
+		}
+	});
+
 	return (
 		<>
 			<div className="relative w-full">
-				<nav className="flex flex-col fixed m-5 right-0 top-0 w-1/5 text-right">
+				<nav className="flex flex-col fixed m-12 right-0 top-0 w-1/5 text-right">
 					<NavLink href="#" active={true}>
 						Josef Vacek
 					</NavLink>
-					<NavLink href="#co">Co</NavLink>
-					<NavLink href="#jak">Jak</NavLink>
-					<NavLink href="#prokoho">Pro koho</NavLink>
-					<NavLink href="#projekty">Projekty</NavLink>
-					<NavLink href="#anythingelse">Ještě něco?</NavLink>
+					<NavLink href="#what">{t.translate("App.Menu.what")}</NavLink>
+					<NavLink href="#how">{t.translate("App.Menu.how")}</NavLink>
+					<NavLink href="#forwho">{t.translate("App.Menu.forwho")}</NavLink>
+					<NavLink href="#projects">{t.translate("App.Menu.projects")}</NavLink>
+					<NavLink href="#more">{t.translate("App.Menu.more")}</NavLink>
+					<NavLink href="#contact">{t.translate("App.Menu.contact")}</NavLink>
+					<TranslateButton
+						onClick={lang => {
+							props.i18nmanager.update({ locale: lang });
+						}}
+					/>
 				</nav>
 			</div>
 			<main className="font-sans m-5 max-w-4xl m-auto mt-8">
 				<h1 className="text-4xl">Josef Vacek</h1>
-				<Section title={"Co dělám"}>
+				<Section title={t.translate("App.Menu.what")}>
 					<ul>
 						<li>Full-stack web development</li>
 					</ul>
 				</Section>
-				<Section title={"Jak to dělám"}>
+				<Section title={t.translate("App.Menu.how")}>
 					<ul>
 						<Technology>ReactJS</Technology>
 						<Technology>Typescript</Technology>
@@ -131,7 +183,7 @@ function App() {
 						<Technology>NodeJS</Technology>
 					</ul>
 				</Section>
-				<Section title={"Pro koho to delam"}>
+				<Section title={t.translate("App.Menu.forwho")}>
 					<Client
 						name={"Abradatas"}
 						projects={
