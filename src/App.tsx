@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { I18nManager, useI18n } from "@shopify/react-i18n";
+import "./App.css";
 
 import en from "./translations/en.json";
 import cs from "./translations/cs.json";
@@ -8,11 +9,12 @@ function NavLink(props: React.ComponentProps<"a"> & { active?: boolean }) {
 	return (
 		<a
 			href={props.href}
-			className={`text-xl mb-1 ${props.active ? "text-gray-900" : "text-gray-600"} ${
-				props.className
-			}`}
+			className={`navlink relative text-3xl hover:text-gray-800 duration-200 ease-in-out transition mb-1 ${
+				props.active ? "text-gray-900" : "text-gray-600"
+			} ${props.className}`}
 		>
 			{props.children}
+			<div className="stripe opacity-75 transition-all ease-out duration-200 bg-blue-200 absolute bottom-0 w-0 h-3 z-0 ml-3" />
 		</a>
 	);
 }
@@ -50,26 +52,14 @@ function Client(props: { name: string; projects: React.ReactNode; date: JSX.Elem
 	);
 }
 
-function Project(props: { name: string; link: string }) {
+function Project(props: { name: string; link: string; description?: JSX.Element }) {
 	return (
 		<>
 			<a
 				href={props.link ?? ""}
-				className="p-2 mb-2 ml-4 duration-100 ease-in-out self-start items-center hover:bg-blue-100 rounded"
+				className="flex flex-col p-2 mb-2 ml-4 duration-100 ease-in-out self-start items-center hover:bg-blue-100 rounded"
 			>
-				<svg
-					fill="none"
-					stroke="currentColor"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-					strokeWidth="2"
-					viewBox="0 0 24 24"
-					className="inline w-6 h-6 mr-4 align-text-bottom text-gray-500"
-				>
-					<path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-				</svg>
-				<span className="text-gray-700">{props.name}</span>
-				{props.link && (
+				<div>
 					<svg
 						fill="none"
 						stroke="currentColor"
@@ -77,11 +67,25 @@ function Project(props: { name: string; link: string }) {
 						strokeLinejoin="round"
 						strokeWidth="2"
 						viewBox="0 0 24 24"
-						className="inline w-4 h-4 ml-2 align-baseline text-gray-500"
+						className="inline w-6 h-6 mr-4 align-text-bottom text-gray-500"
 					>
-						<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+						<path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
 					</svg>
-				)}
+					<span className="text-gray-700">{props.name}</span>
+					{props.link && (
+						<svg
+							fill="none"
+							stroke="currentColor"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							strokeWidth="2"
+							viewBox="0 0 24 24"
+							className="inline w-4 h-4 ml-2 align-baseline text-gray-500"
+						>
+							<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+						</svg>
+					)}
+				</div>
 			</a>
 		</>
 	);
@@ -114,7 +118,7 @@ function TranslateButton(props: TranslateButtonProps) {
 
 	return (
 		<button
-			className="inline-block text-right mt-3"
+			className="inline-block text-right mt-3 focus:outline-none"
 			onClick={() => {
 				const newLang = lang === "en" ? "cs" : "en";
 				setLang(newLang);
@@ -132,9 +136,21 @@ function TranslateButton(props: TranslateButtonProps) {
 			>
 				<path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
 			</svg>
-			<span className={`${lang === "en" ? "text-gray-900" : "text-gray-500"}`}>en</span>
+			<span
+				className={`hover:text-gray-800 duration-250 ease-in-out ${
+					lang === "en" ? "text-gray-900" : "text-gray-500"
+				}`}
+			>
+				en
+			</span>
 			<span className="mx-1 text-gray-500">/</span>
-			<span className={`${lang === "cs" ? "text-gray-900" : "text-gray-500"}`}>cs</span>
+			<span
+				className={`hover:text-gray-800 duration-250 ease-in-out ${
+					lang === "cs" ? "text-gray-900" : "text-gray-500"
+				}`}
+			>
+				cs
+			</span>
 		</button>
 	);
 }
@@ -150,7 +166,7 @@ function App(props: { i18nmanager: I18nManager }) {
 	return (
 		<>
 			<div className="relative w-full">
-				<nav className="flex flex-col fixed m-12 right-0 top-0 w-1/5 text-right">
+				<nav className="flex flex-col items-end fixed m-12 right-0 top-0 w-1/5 text-right">
 					<NavLink href="#" active={true}>
 						Josef Vacek
 					</NavLink>
