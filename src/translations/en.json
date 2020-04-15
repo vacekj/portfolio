@@ -7,6 +7,14 @@
 			"projects": "Projects",
 			"more": "More?",
 			"contact": "Contact"
+		},
+		"Projects": {
+			"Evaluace": {
+				"name": "Evaluace Výuky (Evaluation of Teaching)",
+				"landing": "Design and realization of landing page",
+				"form": "Design and realization of the form for students",
+				"results": "Consultation work on the results browser"
+			}
 		}
 	}
 }

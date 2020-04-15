@@ -31,7 +31,11 @@ function Section(props: React.ComponentProps<"a"> & { title?: string }) {
 	);
 }
 
-function Client(props: { name: string; projects: React.ReactNode; date: JSX.Element | string }) {
+function Client(props: {
+	name: string;
+	projects: React.ReactNode;
+	date: [string | number, (string | number)?];
+}) {
 	return (
 		<div className="mb-2">
 			<svg
@@ -46,33 +50,10 @@ function Client(props: { name: string; projects: React.ReactNode; date: JSX.Elem
 				<path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
 			</svg>
 			<span className="px-2">{props.name}</span>•
-			<span className="pl-2 text-base">{props.date}</span>
-			<div className="flex flex-col mt-3">{props.projects}</div>
-		</div>
-	);
-}
-
-function Project(props: { name: string; link: string; description?: JSX.Element }) {
-	return (
-		<>
-			<a
-				href={props.link ?? ""}
-				className="flex flex-col p-2 mb-2 ml-4 duration-100 ease-in-out self-start items-center hover:bg-blue-100 rounded"
-			>
-				<div>
-					<svg
-						fill="none"
-						stroke="currentColor"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						strokeWidth="2"
-						viewBox="0 0 24 24"
-						className="inline w-6 h-6 mr-4 align-text-bottom text-gray-500"
-					>
-						<path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-					</svg>
-					<span className="text-gray-700">{props.name}</span>
-					{props.link && (
+			<span className="pl-2 text-base">
+				{
+					<>
+						{props.date[0]}{" "}
 						<svg
 							fill="none"
 							stroke="currentColor"
@@ -80,13 +61,49 @@ function Project(props: { name: string; link: string; description?: JSX.Element 
 							strokeLinejoin="round"
 							strokeWidth="2"
 							viewBox="0 0 24 24"
-							className="inline w-4 h-4 ml-2 align-baseline text-gray-500"
+							className="w-4 h-4 mx-1 align-text-bottom inline"
 						>
-							<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+							<path d="M17 8l4 4m0 0l-4 4m4-4H3" />
 						</svg>
-					)}
-				</div>
-			</a>
+						{props.date[1] ?? null}
+					</>
+				}
+			</span>
+			<div className="flex flex-col mt-3 ml-8">{props.projects}</div>
+		</div>
+	);
+}
+
+function Link(props: React.ComponentProps<"a">) {
+	return (
+		<a
+			{...props}
+			className="duration-100 ease-in-out self-start items-center hover:text-gray-700 rounded"
+		>
+			{props.children}
+			<LinkIcon />
+		</a>
+	);
+}
+
+function Project(props: { name: string | JSX.Element; link?: string; description?: JSX.Element }) {
+	return (
+		<>
+			<div className="mb-3">
+				<svg
+					fill="none"
+					stroke="currentColor"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					strokeWidth="2"
+					viewBox="0 0 24 24"
+					className="inline w-6 h-6 mr-4 align-text-bottom text-gray-500"
+				>
+					<path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+				</svg>
+				<span className="text-gray-700">{props.name}</span>
+			</div>
+			<div className="ml-10 text-base text-gray-600">{props.description}</div>
 		</>
 	);
 }
@@ -155,6 +172,22 @@ function TranslateButton(props: TranslateButtonProps) {
 	);
 }
 
+function LinkIcon(props: React.ComponentProps<"svg">) {
+	return (
+		<svg
+			fill="none"
+			stroke="currentColor"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			strokeWidth="2"
+			viewBox="0 0 24 24"
+			className="inline w-4 h-4 ml-2 align-baseline"
+		>
+			<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+		</svg>
+	);
+}
+
 function App(props: { i18nmanager: I18nManager }) {
 	const [t] = useI18n({
 		id: "App",
@@ -184,7 +217,7 @@ function App(props: { i18nmanager: I18nManager }) {
 				</nav>
 			</div>
 			<main className="font-sans m-5 max-w-4xl m-auto mt-8">
-				<h1 className="text-4xl">Josef Vacek</h1>
+				<h1 className="text-6xl name">Josef Vacek</h1>
 				<Section title={t.translate("App.Menu.what")}>
 					<ul>
 						<li>Full-stack web development</li>
@@ -197,6 +230,9 @@ function App(props: { i18nmanager: I18nManager }) {
 						<Technology>TailwindCSS</Technology>
 						<Technology>Laravel</Technology>
 						<Technology>NodeJS</Technology>
+						<Technology>Cypress, Jest</Technology>
+						<Technology>NodeJS, ExpressJS</Technology>
+						<Technology>Git, -Hub, -Lab</Technology>
 					</ul>
 				</Section>
 				<Section title={t.translate("App.Menu.forwho")}>
@@ -205,31 +241,30 @@ function App(props: { i18nmanager: I18nManager }) {
 						projects={
 							<>
 								<Project
-									link="https://www.evaluacevyuky.cz"
-									name={"Evaluace výuky"}
-								/>
-								<Project
-									name={"IMMAG Box (prezentační web, interface měření)"}
-									link={"https://immagbox.cz/"}
+									name={t.translate("App.Projects.Evaluace.name")}
+									description={
+										<ul>
+											<li className="mb-2">
+												<Link href="https://form.evaluacevyuky.cz">
+													{t.translate("App.Projects.Evaluace.form")}
+												</Link>
+											</li>
+											<li className="mb-2">
+												<Link href="https://form.evaluacevyuky.cz">
+													{t.translate("App.Projects.Evaluace.form")}
+												</Link>
+											</li>
+											<li className="mb-2">
+												<Link href="https://app.evaluacevyuky.cz/sample">
+													{t.translate("App.Projects.Evaluace.results")}
+												</Link>
+											</li>
+										</ul>
+									}
 								/>
 							</>
 						}
-						date={
-							<span>
-								2019
-								<svg
-									fill="none"
-									stroke="currentColor"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth="2"
-									viewBox="0 0 24 24"
-									className="w-4 h-4 mx-1 align-text-bottom inline"
-								>
-									<path d="M17 8l4 4m0 0l-4 4m4-4H3" />
-								</svg>
-							</span>
-						}
+						date={[2019]}
 					/>
 				</Section>
 			</main>

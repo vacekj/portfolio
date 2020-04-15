@@ -7,6 +7,14 @@
 			"projects": "Projekty",
 			"more": "Ještě něco?",
 			"contact": "Kontakt"
+		},
+		"Projects": {
+			"Evaluace": {
+				"name": "Evaluace Výuky",
+				"landing": "Design a realizace landing page",
+				"form": "Design a realizace formuláře pro studenty",
+				"results": "Konzultace k prohlížeči výsledků"
+			}
 		}
 	}
 }

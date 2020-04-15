@@ -5,6 +5,7 @@ import * as serviceWorker from "./serviceWorker";
 /* Tailwind compiled styles */
 import "./styles.css";
 import { I18nManager, I18nContext } from "@shopify/react-i18n";
+import "./assets/grad.jpg";
 
 let locale = "cs";
 const i18nManager = new I18nManager({
