@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { I18nManager, useI18n } from "@shopify/react-i18n";
+import { RemoveScroll } from "react-remove-scroll";
+
 import "./App.css";
 
 import en from "./translations/en.json";
@@ -15,7 +17,7 @@ function NavLink(props: React.ComponentProps<"a"> & { active?: boolean }) {
 			} ${props.className}`}
 		>
 			{props.children}
-			<div className="hidden sm:block stripe opacity-75 transition-all ease-out duration-200 bg-blue-200 absolute bottom-0 w-0 h-3 z-0 ml-3" />
+			<div className="absolute bottom-0 z-0 hidden w-0 h-3 ml-3 transition-all duration-200 ease-out bg-blue-200 opacity-75 sm:block stripe" />
 		</a>
 	);
 }
@@ -23,11 +25,11 @@ function NavLink(props: React.ComponentProps<"a"> & { active?: boolean }) {
 function Section(props: React.ComponentProps<"a"> & { title?: string }) {
 	return (
 		<section className="my-12" id={props.id}>
-			<h2 className="text-2xl text-gray-800 mb-4 relative inline-block">
+			<h2 className="relative inline-block mb-4 text-2xl text-gray-800">
 				<span className="relative z-10">{props.title}</span>
-				<div className="bg-blue-200 absolute bottom-0 w-full h-3 z-0 ml-3" />
+				<div className="absolute bottom-0 z-0 w-full h-3 ml-3 bg-blue-200" />
 			</h2>
-			<div className="text-xl text-gray-700 border-l-2 pl-6 ml-3">{props.children}</div>
+			<div className="pl-6 ml-3 text-xl text-gray-700 border-l-2">{props.children}</div>
 		</section>
 	);
 }
@@ -46,7 +48,7 @@ function Client(props: {
 				strokeLinejoin="round"
 				strokeWidth="2"
 				viewBox="0 0 24 24"
-				className="inline w-6 h-6 align-text-bottom text-gray-500"
+				className="inline w-6 h-6 text-gray-500 align-text-bottom"
 			>
 				<path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
 			</svg>
@@ -62,7 +64,7 @@ function Client(props: {
 							strokeLinejoin="round"
 							strokeWidth="2"
 							viewBox="0 0 24 24"
-							className="w-4 h-4 mx-1 align-text-bottom inline"
+							className="inline w-4 h-4 mx-1 align-text-bottom"
 						>
 							<path d="M17 8l4 4m0 0l-4 4m4-4H3" />
 						</svg>
@@ -80,7 +82,7 @@ function Link(props: React.ComponentProps<"a">) {
 		<a
 			{...props}
 			target="_blank"
-			className="duration-100 ease-in-out self-start items-center hover:text-gray-700 rounded"
+			className="items-center self-start duration-100 ease-in-out rounded hover:text-gray-700"
 		>
 			{props.children}
 			<LinkIcon />
@@ -99,7 +101,7 @@ function Project(props: { name: string | JSX.Element; link?: string; description
 					strokeLinejoin="round"
 					strokeWidth="2"
 					viewBox="0 0 24 24"
-					className="inline w-6 h-6 mr-4 align-text-bottom text-gray-500"
+					className="inline w-6 h-6 mr-4 text-gray-500 align-text-bottom"
 				>
 					<path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
 				</svg>
@@ -115,8 +117,15 @@ function Technology(
 		more?: JSX.Element | string;
 	}
 ) {
+	const [moreVisible, setMoreVisible] = useState(false);
+
 	return (
-		<div className="mb-4 flex items-center">
+		<div
+			className="flex items-center mb-4"
+			onClick={() => setMoreVisible(!moreVisible)}
+			onMouseEnter={() => setMoreVisible(true)}
+			onMouseLeave={() => setMoreVisible(false)}
+		>
 			<svg
 				fill="none"
 				stroke="currentColor"
@@ -124,7 +133,7 @@ function Technology(
 				strokeLinejoin="round"
 				strokeWidth="2"
 				viewBox="0 0 24 24"
-				className="w-8 h-8 align-text-bottom text-gray-400 inline mr-3"
+				className="inline w-8 h-8 mr-3 text-gray-400 align-text-bottom"
 			>
 				<path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
 			</svg>
@@ -135,9 +144,11 @@ function Technology(
 						overflow: "hidden",
 						whiteSpace: "nowrap"
 					}}
-					className="ml-2 text-base w-3 transition-all duration-200 ease-in-out hover:w-auto"
+					className={`${
+						moreVisible ? "w-full" : "w-3"
+					} ml-2 text-base transition-all duration-300 ease-in-out`}
 				>
-					{props.more}
+					+&nbsp;{props.more}
 				</span>
 			)}
 		</div>
@@ -167,7 +178,7 @@ function TranslateButton(props: TranslateButtonProps) {
 				strokeLinejoin="round"
 				strokeWidth="2"
 				viewBox="0 0 24 24"
-				className="w-6 h-6 inline mr-2 text-gray-500"
+				className="inline w-6 h-6 mr-2 text-gray-500"
 			>
 				<path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
 			</svg>
@@ -219,45 +230,37 @@ function App(props: { i18nmanager: I18nManager }) {
 	return (
 		<>
 			<div className="relative w-full">
-				<nav
-					className={`${
-						mobileNavOpen
-							? "opacity-100 ease-out"
-							: "opacity-0 pointer-events-none ease-in-out"
-					} sm:pointer-events-auto backdrop-blur w-full text-center sm:opacity-100 z-30 pt-5 flex transition-all overflow-none whitespace-no-wrap h-full duration-300 sm:flex flex-col sm:items-end fixed sm:p-12 right-0 top-0 sm:w-1/3 sm:text-right`}
-					onClick={() => setMobileNavOpen(false)}
-				>
-					<NavLink onClick={() => setMobileNavOpen(false)} href="#top" active={true}>
-						Josef Vacek
-					</NavLink>
-					<NavLink onClick={() => setMobileNavOpen(false)} href="#what">
-						{t.translate("App.Menu.what")}
-					</NavLink>
-					<NavLink onClick={() => setMobileNavOpen(false)} href="#how">
-						{t.translate("App.Menu.how")}
-					</NavLink>
-					<NavLink onClick={() => setMobileNavOpen(false)} href="#forwho">
-						{t.translate("App.Menu.forwho")}
-					</NavLink>
-					<NavLink onClick={() => setMobileNavOpen(false)} href="#projects">
-						{t.translate("App.Menu.projects")}
-					</NavLink>
-					<NavLink onClick={() => setMobileNavOpen(false)} href="#more">
-						{t.translate("App.Menu.more")}
-					</NavLink>
-					<NavLink onClick={() => setMobileNavOpen(false)} href="#contact">
-						{t.translate("App.Menu.contact")}
-					</NavLink>
-					<TranslateButton
-						onClick={lang => {
-							props.i18nmanager.update({ locale: lang });
-						}}
-					/>
-				</nav>
+				<RemoveScroll enabled={mobileNavOpen}>
+					<nav
+						className={`${
+							mobileNavOpen
+								? "opacity-100 ease-out"
+								: "opacity-0 pointer-events-none ease-in-out"
+						} justify-evenly items-center sm:pointer-events-auto backdrop-blur w-full text-center sm:opacity-100 z-30 pt-5 flex transition-all
+					 overflow-none whitespace-no-wrap h-full duration-300 sm:flex flex-col sm:items-end fixed sm:p-12 right-0
+					  top-0 sm:w-1/3 sm:text-right`}
+						onClick={() => setMobileNavOpen(false)}
+					>
+						<NavLink href="#top" active={true}>
+							Josef Vacek
+						</NavLink>
+						<NavLink href="#what">{t.translate("App.Menu.what")}</NavLink>
+						<NavLink href="#how">{t.translate("App.Menu.how")}</NavLink>
+						<NavLink href="#forwho">{t.translate("App.Menu.forwho")}</NavLink>
+						<NavLink href="#projects">{t.translate("App.Menu.projects")}</NavLink>
+						<NavLink href="#more">{t.translate("App.Menu.more")}</NavLink>
+						<NavLink href="#contact">{t.translate("App.Menu.contact")}</NavLink>
+						<TranslateButton
+							onClick={lang => {
+								props.i18nmanager.update({ locale: lang });
+							}}
+						/>
+					</nav>
+				</RemoveScroll>
 			</div>
-			<main className="m-3 font-sans max-w-4xl sm:mx-auto my-8">
-				<div className="flex justify-between items-center px-3 sm:p-0 sm:block">
-					<h1 className="text-4xl sm:text-6xl name text-center md:text-left" id={"top"}>
+			<main className="max-w-4xl m-3 my-8 font-sans sm:mx-auto">
+				<div className="flex items-center justify-between px-3 sm:p-0 sm:block">
+					<h1 className="text-4xl text-center sm:text-6xl name md:text-left" id={"top"}>
 						Josef Vacek
 					</h1>
 					<button
@@ -284,9 +287,9 @@ function App(props: { i18nmanager: I18nManager }) {
 				</Section>
 				<Section title={t.translate("App.Menu.how")} id={"how"}>
 					<ul>
-						<Technology more={"+ ES6+, FP"}>Typescript</Technology>
-						<Technology>ReactJS</Technology>
-						<Technology>TailwindCSS</Technology>
+						<Technology more={"ES6+, FP"}>Typescript</Technology>
+						<Technology more={"Material-UI"}>ReactJS</Technology>
+						<Technology more={"CSS3, BEM"}>TailwindCSS</Technology>
 						<Technology>Laravel</Technology>
 						<Technology>NodeJS, ExpressJS</Technology>
 						<Technology>Cypress, Jest</Technology>
