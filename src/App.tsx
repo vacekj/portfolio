@@ -81,6 +81,7 @@ function Link(props: React.ComponentProps<"a">) {
 	return (
 		<a
 			{...props}
+			rel="noopener"
 			target="_blank"
 			className="items-center self-start duration-100 ease-in-out rounded hover:text-gray-700"
 		>
