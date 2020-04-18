@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 .navlink:hover  .stripe {
     width: 100%;
 }
@@ -13,4 +17,12 @@
     font-weight: 600;
     letter-spacing: -.015em;
     font-family: "SF Pro Display","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+}
+
+input,
+textarea,
+button,
+select,
+a {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
 }

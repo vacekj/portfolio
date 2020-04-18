@@ -9,19 +9,20 @@ function NavLink(props: React.ComponentProps<"a"> & { active?: boolean }) {
 	return (
 		<a
 			href={props.href}
-			className={`navlink relative text-3xl hover:text-gray-800 duration-200 ease-in-out transition mb-1 ${
+			onClick={props.onClick}
+			className={`z-50 navlink relative text-3xl hover:text-gray-800 duration-200 ease-in-out transition mb-1 ${
 				props.active ? "text-gray-900" : "text-gray-600"
 			} ${props.className}`}
 		>
 			{props.children}
-			<div className="stripe opacity-75 transition-all ease-out duration-200 bg-blue-200 absolute bottom-0 w-0 h-3 z-0 ml-3" />
+			<div className="hidden sm:block stripe opacity-75 transition-all ease-out duration-200 bg-blue-200 absolute bottom-0 w-0 h-3 z-0 ml-3" />
 		</a>
 	);
 }
 
 function Section(props: React.ComponentProps<"a"> & { title?: string }) {
 	return (
-		<section className="my-12">
+		<section className="my-12" id={props.id}>
 			<h2 className="text-2xl text-gray-800 mb-4 relative inline-block">
 				<span className="relative z-10">{props.title}</span>
 				<div className="bg-blue-200 absolute bottom-0 w-full h-3 z-0 ml-3" />
@@ -78,6 +79,7 @@ function Link(props: React.ComponentProps<"a">) {
 	return (
 		<a
 			{...props}
+			target="_blank"
 			className="duration-100 ease-in-out self-start items-center hover:text-gray-700 rounded"
 		>
 			{props.children}
@@ -108,9 +110,13 @@ function Project(props: { name: string | JSX.Element; link?: string; description
 	);
 }
 
-function Technology(props: React.ComponentProps<"div">) {
+function Technology(
+	props: React.ComponentProps<"div"> & {
+		more?: JSX.Element | string;
+	}
+) {
 	return (
-		<div className="mb-4">
+		<div className="mb-4 flex items-center">
 			<svg
 				fill="none"
 				stroke="currentColor"
@@ -122,7 +128,18 @@ function Technology(props: React.ComponentProps<"div">) {
 			>
 				<path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
 			</svg>
-			{props.children}
+			<span>{props.children}</span>
+			{props.more && (
+				<span
+					style={{
+						overflow: "hidden",
+						whiteSpace: "nowrap"
+					}}
+					className="ml-2 text-base w-3 transition-all duration-200 ease-in-out hover:w-auto"
+				>
+					{props.more}
+				</span>
+			)}
 		</div>
 	);
 }
@@ -130,12 +147,13 @@ function Technology(props: React.ComponentProps<"div">) {
 interface TranslateButtonProps {
 	onClick: (lang: string) => void;
 }
+
 function TranslateButton(props: TranslateButtonProps) {
 	const [lang, setLang] = useState("cs");
 
 	return (
 		<button
-			className="inline-block text-right mt-3 focus:outline-none"
+			className="inline-block mt-3 focus:outline-none blurredbg"
 			onClick={() => {
 				const newLang = lang === "en" ? "cs" : "en";
 				setLang(newLang);
@@ -196,19 +214,40 @@ function App(props: { i18nmanager: I18nManager }) {
 		}
 	});
 
+	const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
 	return (
 		<>
 			<div className="relative w-full">
-				<nav className="flex flex-col items-end fixed m-12 right-0 top-0 w-1/5 text-right">
-					<NavLink href="#" active={true}>
+				<nav
+					className={`${
+						mobileNavOpen
+							? "opacity-100 ease-out"
+							: "opacity-0 pointer-events-none ease-in-out"
+					} sm:pointer-events-auto backdrop-blur w-full text-center sm:opacity-100 z-30 pt-5 flex transition-all overflow-none whitespace-no-wrap h-full duration-300 sm:flex flex-col sm:items-end fixed sm:p-12 right-0 top-0 sm:w-1/3 sm:text-right`}
+					onClick={() => setMobileNavOpen(false)}
+				>
+					<NavLink onClick={() => setMobileNavOpen(false)} href="#top" active={true}>
 						Josef Vacek
 					</NavLink>
-					<NavLink href="#what">{t.translate("App.Menu.what")}</NavLink>
-					<NavLink href="#how">{t.translate("App.Menu.how")}</NavLink>
-					<NavLink href="#forwho">{t.translate("App.Menu.forwho")}</NavLink>
-					<NavLink href="#projects">{t.translate("App.Menu.projects")}</NavLink>
-					<NavLink href="#more">{t.translate("App.Menu.more")}</NavLink>
-					<NavLink href="#contact">{t.translate("App.Menu.contact")}</NavLink>
+					<NavLink onClick={() => setMobileNavOpen(false)} href="#what">
+						{t.translate("App.Menu.what")}
+					</NavLink>
+					<NavLink onClick={() => setMobileNavOpen(false)} href="#how">
+						{t.translate("App.Menu.how")}
+					</NavLink>
+					<NavLink onClick={() => setMobileNavOpen(false)} href="#forwho">
+						{t.translate("App.Menu.forwho")}
+					</NavLink>
+					<NavLink onClick={() => setMobileNavOpen(false)} href="#projects">
+						{t.translate("App.Menu.projects")}
+					</NavLink>
+					<NavLink onClick={() => setMobileNavOpen(false)} href="#more">
+						{t.translate("App.Menu.more")}
+					</NavLink>
+					<NavLink onClick={() => setMobileNavOpen(false)} href="#contact">
+						{t.translate("App.Menu.contact")}
+					</NavLink>
 					<TranslateButton
 						onClick={lang => {
 							props.i18nmanager.update({ locale: lang });
@@ -216,26 +255,45 @@ function App(props: { i18nmanager: I18nManager }) {
 					/>
 				</nav>
 			</div>
-			<main className="font-sans m-5 max-w-4xl m-auto mt-8">
-				<h1 className="text-6xl name">Josef Vacek</h1>
-				<Section title={t.translate("App.Menu.what")}>
+			<main className="m-3 font-sans max-w-4xl sm:mx-auto my-8">
+				<div className="flex justify-between items-center px-3 sm:p-0 sm:block">
+					<h1 className="text-4xl sm:text-6xl name text-center md:text-left" id={"top"}>
+						Josef Vacek
+					</h1>
+					<button
+						className="sticky sm:hidden"
+						onClick={() => setMobileNavOpen(!mobileNavOpen)}
+					>
+						<svg
+							fill="none"
+							stroke="currentColor"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							strokeWidth="2"
+							viewBox="0 0 24 24"
+							className="w-8 h-8"
+						>
+							<path d="M4 6h16M4 12h16M4 18h16" />
+						</svg>
+					</button>
+				</div>
+				<Section title={t.translate("App.Menu.what")} id={"what"}>
 					<ul>
 						<li>Full-stack web development</li>
 					</ul>
 				</Section>
-				<Section title={t.translate("App.Menu.how")}>
+				<Section title={t.translate("App.Menu.how")} id={"how"}>
 					<ul>
+						<Technology more={"+ ES6+, FP"}>Typescript</Technology>
 						<Technology>ReactJS</Technology>
-						<Technology>Typescript</Technology>
 						<Technology>TailwindCSS</Technology>
 						<Technology>Laravel</Technology>
-						<Technology>NodeJS</Technology>
-						<Technology>Cypress, Jest</Technology>
 						<Technology>NodeJS, ExpressJS</Technology>
+						<Technology>Cypress, Jest</Technology>
 						<Technology>Git, -Hub, -Lab</Technology>
 					</ul>
 				</Section>
-				<Section title={t.translate("App.Menu.forwho")}>
+				<Section title={t.translate("App.Menu.forwho")} id={"forwho"}>
 					<Client
 						name={"Abradatas"}
 						projects={
@@ -250,8 +308,8 @@ function App(props: { i18nmanager: I18nManager }) {
 												</Link>
 											</li>
 											<li className="mb-2">
-												<Link href="https://form.evaluacevyuky.cz">
-													{t.translate("App.Projects.Evaluace.form")}
+												<Link href="https://evaluacevyuky.cz">
+													{t.translate("App.Projects.Evaluace.landing")}
 												</Link>
 											</li>
 											<li className="mb-2">
@@ -267,6 +325,11 @@ function App(props: { i18nmanager: I18nManager }) {
 						date={[2019]}
 					/>
 				</Section>
+				<Section title={t.translate("App.Menu.projects")} id={"projects"}></Section>
+
+				<Section title={t.translate("App.Menu.more")} id={"more"}></Section>
+
+				<Section title={t.translate("App.Menu.contact")} id={"contact"}></Section>
 			</main>
 		</>
 	);

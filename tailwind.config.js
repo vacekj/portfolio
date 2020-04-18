@@ -1,9 +1,13 @@
 module.exports = {
 	theme: {
-		extend: {}
+		extend: {},
+		backdropFilter: {
+			blur: "blur(20px)"
+		}
 	},
 	variants: {
-		padding: ["responsive", "hover"]
+		padding: ["responsive", "hover"],
+		width: ["responsive", "hover"]
 	},
-	plugins: []
+	plugins: [require("tailwindcss-filters")]
 };
