@@ -14,7 +14,16 @@
 				"landing": "Design a realizace landing page",
 				"form": "Design a realizace formuláře pro studenty",
 				"results": "Konzultace k prohlížeči výsledků"
+			},
+			"Zastupovani": {
+				"name": "Zastupování"
 			}
-		}
+		},
+		"Clients": {
+			"Gytool": {
+				"name": "Gymnázium Olomouc - Hejčín"
+			}
+		},
+		"psst": "Pssst! Tahle stránka je open-source ;)"
 	}
 }

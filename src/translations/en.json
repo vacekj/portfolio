@@ -14,7 +14,16 @@
 				"landing": "Design and realization of landing page",
 				"form": "Design and realization of the form for students",
 				"results": "Consultation work on the results browser"
+			},
+			"Zastupovani": {
+				"name": "Teacher absence monitoring"
 			}
-		}
+		},
+		"Clients": {
+			"Gytool": {
+				"name": "Olomouc - Hejcin Grammar School"
+			}
+		},
+		"psst": "Pssst! This page is open-source ;)"
 	}
 }

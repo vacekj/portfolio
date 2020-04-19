@@ -77,7 +77,11 @@ function Client(props: {
 	);
 }
 
-function Link(props: React.ComponentProps<"a">) {
+function Link(
+	props: React.ComponentProps<"a"> & {
+		noIcon?: boolean;
+	}
+) {
 	return (
 		<a
 			{...props}
@@ -86,15 +90,15 @@ function Link(props: React.ComponentProps<"a">) {
 			className="items-center self-start duration-100 ease-in-out rounded hover:text-gray-700"
 		>
 			{props.children}
-			<LinkIcon />
+			{!props.noIcon && <LinkIcon />}
 		</a>
 	);
 }
 
 function Project(props: { name: string | JSX.Element; link?: string; description?: JSX.Element }) {
 	return (
-		<>
-			<div className="mb-3">
+		<div className="mb-5">
+			<div className="mb-1">
 				<svg
 					fill="none"
 					stroke="currentColor"
@@ -109,7 +113,7 @@ function Project(props: { name: string | JSX.Element; link?: string; description
 				<span className="text-gray-700">{props.name}</span>
 			</div>
 			<div className="ml-10 text-base text-gray-600">{props.description}</div>
-		</>
+		</div>
 	);
 }
 
@@ -249,7 +253,6 @@ function App(props: { i18nmanager: I18nManager }) {
 						<NavLink href="#how">{t.translate("App.Menu.how")}</NavLink>
 						<NavLink href="#forwho">{t.translate("App.Menu.forwho")}</NavLink>
 						<NavLink href="#projects">{t.translate("App.Menu.projects")}</NavLink>
-						<NavLink href="#more">{t.translate("App.Menu.more")}</NavLink>
 						<NavLink href="#contact">{t.translate("App.Menu.contact")}</NavLink>
 						<TranslateButton
 							onClick={lang => {
@@ -328,12 +331,79 @@ function App(props: { i18nmanager: I18nManager }) {
 						}
 						date={[2019]}
 					/>
+					<Client
+						name={t.translate("App.Clients.Gytool.name")}
+						projects={
+							<>
+								<Project
+									name={t.translate("App.Projects.Zastupovani.name")}
+									description={
+										<ul>
+											<li className="mb-2">
+												<Link href="https://zastupovani.gytool.cz">
+													Deployment
+												</Link>
+											</li>
+											<li className="mb-2">
+												<Link href="https://github.com/JouzaLoL/better-zastupovani">
+													Code
+												</Link>
+											</li>
+										</ul>
+									}
+								/>
+							</>
+						}
+						date={[2017]}
+					/>
+					<Client
+						name={"Allerton's Automatica"}
+						projects={
+							<>
+								<Project
+									name={"emilia.digital"}
+									description={
+										<span>
+											Backend in Laravel with heavy Instagram-API integration
+										</span>
+									}
+								/>
+								<Project
+									name={"ava.digital"}
+									description={
+										<Link href="https://ava.digital">Landing page</Link>
+									}
+								/>
+							</>
+						}
+						date={[2019]}
+					/>
 				</Section>
-				<Section title={t.translate("App.Menu.projects")} id={"projects"}></Section>
 
-				<Section title={t.translate("App.Menu.more")} id={"more"}></Section>
+				<section className="my-12" id={"projects"}>
+					<a
+						className="relative inline-block mb-4 text-2xl text-gray-800"
+						href="https://github.com/JouzaLoL"
+					>
+						<span className="relative z-10">{t.translate("App.Menu.projects")}</span>
+						<div className="absolute bottom-0 z-0 w-full h-3 ml-3 bg-blue-200" />
+						<LinkIcon />
+					</a>
+				</section>
 
-				<Section title={t.translate("App.Menu.contact")} id={"contact"}></Section>
+				<Section title={t.translate("App.Menu.contact")} id={"contact"}>
+					<div className="flex flex-col ">
+						<Link href="tel:+420605981166">+420 605 98 11 66</Link>
+						<Link href="mailto:vacekj@outlook.com">vacekj@outlook.com</Link>
+						<Link href="https://www.linkedin.com/in/josef-v-19021b128/">LinkedIn</Link>
+					</div>
+				</Section>
+				<a
+					className="text-gray-500 hover:text-gray-600"
+					href={"https://www.github.com/JouzaLoL/portfolio"}
+				>
+					{t.translate("App.psst")}
+				</a>
 			</main>
 		</>
 	);
