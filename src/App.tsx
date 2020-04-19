@@ -242,7 +242,7 @@ function App(props: { i18nmanager: I18nManager }) {
 								? "opacity-100 ease-out"
 								: "opacity-0 pointer-events-none ease-in-out"
 						} justify-evenly items-center sm:pointer-events-auto backdrop-blur w-full text-center sm:opacity-100 z-30 pt-5 flex transition-all
-					 overflow-none whitespace-no-wrap h-full duration-300 sm:flex flex-col sm:items-end fixed sm:p-12 right-0
+					 overflow-none whitespace-no-wrap h-full sm:h-auto duration-300 sm:flex flex-col sm:items-end fixed sm:p-12 right-0
 					  top-0 sm:w-1/3 sm:text-right`}
 						onClick={() => setMobileNavOpen(false)}
 					>
