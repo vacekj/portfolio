@@ -249,7 +249,6 @@ function App(props: { i18nmanager: I18nManager }) {
 						<NavLink href="#top" active={true}>
 							Josef Vacek
 						</NavLink>
-						<NavLink href="#what">{t.translate("App.Menu.what")}</NavLink>
 						<NavLink href="#how">{t.translate("App.Menu.how")}</NavLink>
 						<NavLink href="#forwho">{t.translate("App.Menu.forwho")}</NavLink>
 						<NavLink href="#projects">{t.translate("App.Menu.projects")}</NavLink>
@@ -284,11 +283,9 @@ function App(props: { i18nmanager: I18nManager }) {
 						</svg>
 					</button>
 				</div>
-				<Section title={t.translate("App.Menu.what")} id={"what"}>
-					<ul>
-						<li>Full-stack web development</li>
-					</ul>
-				</Section>
+
+				<div className="my-3">Full-stack web development</div>
+
 				<Section title={t.translate("App.Menu.how")} id={"how"}>
 					<ul>
 						<Technology more={"ES6+, FP"}>Typescript</Technology>
@@ -364,7 +361,8 @@ function App(props: { i18nmanager: I18nManager }) {
 									name={"emilia.digital"}
 									description={
 										<span>
-											Backend in Laravel with heavy Instagram-API integration
+											Backend in Laravel with complex Instagram-API
+											integration
 										</span>
 									}
 								/>

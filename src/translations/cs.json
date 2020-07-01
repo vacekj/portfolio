@@ -1,9 +1,8 @@
 {
 	"App": {
 		"Menu": {
-			"what": "Co dělám",
-			"how": "Jak to dělám",
-			"forwho": "Pro koho",
+			"how": "Technologie",
+			"forwho": "Zkušenosti",
 			"projects": "Projekty",
 			"more": "Ještě něco?",
 			"contact": "Kontakt"
