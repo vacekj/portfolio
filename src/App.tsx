@@ -12,7 +12,7 @@ function NavLink(props: React.ComponentProps<"a"> & { active?: boolean }) {
 		<a
 			href={props.href}
 			onClick={props.onClick}
-			className={`z-50 navlink relative text-3xl hover:text-gray-800 duration-200 ease-in-out transition mb-1 ${
+			className={`z-50 navlink relative text-3xl hover:text-gray-800 duration-200 ease-in-out transition mb-3 ${
 				props.active ? "text-gray-900" : "text-gray-600"
 			} ${props.className}`}
 		>
@@ -68,7 +68,7 @@ function Client(props: {
 						>
 							<path d="M17 8l4 4m0 0l-4 4m4-4H3" />
 						</svg>
-						{props.date[1] ?? null}
+						{props.date[1] ?? "∞"}
 					</>
 				}
 			</span>
@@ -122,15 +122,8 @@ function Technology(
 		more?: JSX.Element | string;
 	}
 ) {
-	const [moreVisible, setMoreVisible] = useState(false);
-
 	return (
-		<div
-			className="flex items-center mb-4"
-			onClick={() => setMoreVisible(!moreVisible)}
-			onMouseEnter={() => setMoreVisible(true)}
-			onMouseLeave={() => setMoreVisible(false)}
-		>
+		<div className="flex  items-center mb-4">
 			<svg
 				fill="none"
 				stroke="currentColor"
@@ -143,19 +136,7 @@ function Technology(
 				<path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
 			</svg>
 			<span>{props.children}</span>
-			{props.more && (
-				<span
-					style={{
-						overflow: "hidden",
-						whiteSpace: "nowrap"
-					}}
-					className={`${
-						moreVisible ? "w-full" : "w-3"
-					} ml-2 text-base transition-all duration-300 ease-in-out`}
-				>
-					+&nbsp;{props.more}
-				</span>
-			)}
+			{props.more && <div>,&nbsp;{props.more}</div>}
 		</div>
 	);
 }
@@ -288,9 +269,10 @@ function App(props: { i18nmanager: I18nManager }) {
 
 				<Section title={t.translate("App.Menu.how")} id={"how"}>
 					<ul>
-						<Technology more={"ES6+, FP"}>Typescript</Technology>
-						<Technology more={"Material-UI"}>ReactJS</Technology>
-						<Technology more={"CSS3, BEM"}>TailwindCSS</Technology>
+						<Technology>Typescript, ESNext</Technology>
+						<Technology>React.js, Next.js</Technology>
+						<Technology>Strapi</Technology>
+						<Technology>Modern CSS, TailwindCSS</Technology>
 						<Technology>Laravel</Technology>
 						<Technology>NodeJS, ExpressJS</Technology>
 						<Technology>Cypress, Jest</Technology>
@@ -324,6 +306,7 @@ function App(props: { i18nmanager: I18nManager }) {
 										</ul>
 									}
 								/>
+								<Project name={t.translate("App.Projects.TradingDashboard.name")} />
 							</>
 						}
 						date={[2019]}
@@ -358,6 +341,24 @@ function App(props: { i18nmanager: I18nManager }) {
 						projects={
 							<>
 								<Project
+									name={"Evolution Equity"}
+									description={
+										<Link href="https://evolutionequity.groadvertising.com">
+											Prezentační web
+										</Link>
+									}
+								/>
+
+								<Project
+									name={"Grinvald Footwear"}
+									description={
+										<Link href="https://grinvald.groadvertising.com">
+											Prezentační web
+										</Link>
+									}
+								/>
+
+								<Project
 									name={"emilia.digital"}
 									description={
 										<span>
@@ -366,6 +367,7 @@ function App(props: { i18nmanager: I18nManager }) {
 										</span>
 									}
 								/>
+
 								<Project
 									name={"ava.digital"}
 									description={

@@ -16,6 +16,9 @@
 			},
 			"Zastupovani": {
 				"name": "Zastupování"
+			},
+			"TradingDashboard": {
+				"name": "Interní trading dashboard pro Solar Global Energy"
 			}
 		},
 		"Clients": {
@@ -23,6 +26,6 @@
 				"name": "Gymnázium Olomouc - Hejčín"
 			}
 		},
-		"psst": "Pssst! Tahle stránka je open-source ;)"
+		"psst": "Tahle stránka je open-source"
 	}
 }
