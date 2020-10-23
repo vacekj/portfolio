@@ -1,10 +1,9 @@
 {
 	"App": {
 		"Menu": {
-			"how": "How I do it",
-			"forwho": "For who",
+			"how": "Technologies",
+			"forwho": "Experience",
 			"projects": "Projects",
-			"more": "More?",
 			"contact": "Contact"
 		},
 		"Projects": {
@@ -19,6 +18,9 @@
 			},
 			"TradingDashboard": {
 				"name": "Internal trading dashboard for Solar Global Energy"
+			},
+			"CeskyPodcast": {
+				"name": "Czech Podcast"
 			}
 		},
 		"Clients": {

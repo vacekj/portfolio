@@ -4,7 +4,6 @@
 			"how": "Technologie",
 			"forwho": "Zkušenosti",
 			"projects": "Projekty",
-			"more": "Ještě něco?",
 			"contact": "Kontakt"
 		},
 		"Projects": {
@@ -19,6 +18,9 @@
 			},
 			"TradingDashboard": {
 				"name": "Interní trading dashboard pro Solar Global Energy"
+			},
+			"CeskyPodcast": {
+				"name": "Český Podcast"
 			}
 		},
 		"Clients": {

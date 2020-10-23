@@ -7,6 +7,219 @@ import "./App.css";
 import en from "./translations/en.json";
 import cs from "./translations/cs.json";
 
+function App(props: { i18nmanager: I18nManager }) {
+	const [t] = useI18n({
+		id: "App",
+		translations(locale) {
+			return locale === "en" ? en : cs;
+		}
+	});
+
+	const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+	return (
+		<>
+			<div className="relative w-full">
+				<RemoveScroll enabled={mobileNavOpen}>
+					<nav
+						className={`${
+							mobileNavOpen
+								? "opacity-100 ease-out"
+								: "opacity-0 pointer-events-none ease-in-out"
+						} justify-evenly items-center sm:pointer-events-auto backdrop-blur w-full text-center sm:opacity-100 z-30 pt-5 flex transition-all
+					 overflow-none whitespace-no-wrap h-full sm:h-auto duration-300 sm:flex flex-col sm:items-end fixed sm:p-12 right-0
+					  top-0 sm:w-1/3 sm:text-right`}
+						onClick={() => setMobileNavOpen(false)}
+					>
+						<NavLink href="#top" active={true}>
+							Josef Vacek
+						</NavLink>
+						<NavLink href="#how">{t.translate("App.Menu.how")}</NavLink>
+						<NavLink href="#forwho">{t.translate("App.Menu.forwho")}</NavLink>
+						<NavLink href="#projects">{t.translate("App.Menu.projects")}</NavLink>
+						<NavLink href="#contact">{t.translate("App.Menu.contact")}</NavLink>
+						<TranslateButton
+							onClick={lang => {
+								props.i18nmanager.update({ locale: lang });
+							}}
+						/>
+					</nav>
+				</RemoveScroll>
+			</div>
+			<main className="max-w-4xl m-3 my-8 font-sans sm:mx-auto">
+				<div className="flex items-center justify-between px-3 sm:p-0 sm:block">
+					<h1 className="text-4xl text-center sm:text-6xl name md:text-left" id={"top"}>
+						Josef Vacek
+					</h1>
+					<button
+						className="sticky sm:hidden"
+						onClick={() => setMobileNavOpen(!mobileNavOpen)}
+					>
+						<svg
+							fill="none"
+							stroke="currentColor"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							strokeWidth="2"
+							viewBox="0 0 24 24"
+							className="w-8 h-8"
+						>
+							<path d="M4 6h16M4 12h16M4 18h16" />
+						</svg>
+					</button>
+				</div>
+
+				<div className="my-3">Full-stack web development</div>
+
+				<Section title={t.translate("App.Menu.how")} id={"how"}>
+					<ul>
+						<Technology>Typescript, ESNext</Technology>
+						<Technology>React.js, Next.js</Technology>
+						<Technology>Firebase</Technology>
+						<Technology>Modern CSS, TailwindCSS</Technology>
+						<Technology>Strapi</Technology>
+						<Technology>Laravel</Technology>
+						<Technology>NodeJS, ExpressJS</Technology>
+						<Technology>Cypress, Jest</Technology>
+						<Technology>Git, -Hub, -Lab</Technology>
+					</ul>
+				</Section>
+				<Section title={t.translate("App.Menu.forwho")} id={"forwho"}>
+					<Client
+						name={"Abradatas"}
+						projects={
+							<>
+								<Project
+									name={t.translate("App.Projects.Evaluace.name")}
+									description={
+										<ul>
+											<li className="mb-2">
+												<Link href="https://form.evaluacevyuky.cz">
+													{t.translate("App.Projects.Evaluace.form")}
+												</Link>
+											</li>
+											<li className="mb-2">
+												<Link href="https://evaluacevyuky.cz">
+													{t.translate("App.Projects.Evaluace.landing")}
+												</Link>
+											</li>
+											<li className="mb-2">
+												<Link href="https://app.evaluacevyuky.cz/sample">
+													{t.translate("App.Projects.Evaluace.results")}
+												</Link>
+											</li>
+										</ul>
+									}
+								/>
+								<Project name={t.translate("App.Projects.TradingDashboard.name")} />
+								<Project
+									name={t.translate("App.Projects.CeskyPodcast.name")}
+									description={
+										<Link href="https://ceskypodcast.cz">Deployment</Link>
+									}
+								/>
+							</>
+						}
+						date={[2019]}
+					/>
+					<Client
+						name={t.translate("App.Clients.Gytool.name")}
+						projects={
+							<>
+								<Project
+									name={t.translate("App.Projects.Zastupovani.name")}
+									description={
+										<ul>
+											<li className="mb-2">
+												<Link href="https://zastupovani.gytool.cz">
+													Deployment
+												</Link>
+											</li>
+											<li className="mb-2">
+												<Link href="https://github.com/vacekj/better-zastupovani">
+													Code
+												</Link>
+											</li>
+										</ul>
+									}
+								/>
+							</>
+						}
+						date={[2017]}
+					/>
+					<Client
+						name={"Allerton's Automatica"}
+						projects={
+							<>
+								<Project
+									name={"Evolution Equity"}
+									description={
+										<Link href="https://evolutionequity.groadvertising.com">
+											Prezentační web
+										</Link>
+									}
+								/>
+
+								<Project
+									name={"Grinvald Footwear"}
+									description={
+										<Link href="https://grinvald.groadvertising.com">
+											Prezentační web
+										</Link>
+									}
+								/>
+
+								<Project
+									name={"emilia.digital"}
+									description={
+										<span>
+											Backend in Laravel with complex Instagram-API
+											integration
+										</span>
+									}
+								/>
+
+								<Project
+									name={"ava.digital"}
+									description={
+										<Link href="https://ava.digital">Landing page</Link>
+									}
+								/>
+							</>
+						}
+						date={[2019]}
+					/>
+				</Section>
+
+				<section className="my-12" id={"projects"}>
+					<a
+						className="relative inline-block mb-4 text-2xl text-gray-800"
+						href="https://github.com/vacekj"
+					>
+						<span className="relative z-10">{t.translate("App.Menu.projects")}</span>
+						<div className="absolute bottom-0 z-0 w-full h-3 ml-3 bg-blue-200" />
+						<LinkIcon />
+					</a>
+				</section>
+
+				<Section title={t.translate("App.Menu.contact")} id={"contact"}>
+					<div className="flex flex-col ">
+						<Link href="tel:+420605981166">+420 605 98 11 66</Link>
+						<Link href="mailto:vacekj@outlook.com">vacekj@outlook.com</Link>
+						<Link href="https://www.linkedin.com/in/josef-v-19021b128/">LinkedIn</Link>
+					</div>
+				</Section>
+				<a
+					className="text-gray-500 hover:text-gray-600"
+					href={"https://www.github.com/vacekj/portfolio"}
+				>
+					{t.translate("App.psst")}
+				</a>
+			</main>
+		</>
+	);
+}
+
 function NavLink(props: React.ComponentProps<"a"> & { active?: boolean }) {
 	return (
 		<a
@@ -200,212 +413,6 @@ function LinkIcon(props: React.ComponentProps<"svg">) {
 		>
 			<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
 		</svg>
-	);
-}
-
-function App(props: { i18nmanager: I18nManager }) {
-	const [t] = useI18n({
-		id: "App",
-		translations(locale) {
-			return locale === "en" ? en : cs;
-		}
-	});
-
-	const [mobileNavOpen, setMobileNavOpen] = useState(false);
-
-	return (
-		<>
-			<div className="relative w-full">
-				<RemoveScroll enabled={mobileNavOpen}>
-					<nav
-						className={`${
-							mobileNavOpen
-								? "opacity-100 ease-out"
-								: "opacity-0 pointer-events-none ease-in-out"
-						} justify-evenly items-center sm:pointer-events-auto backdrop-blur w-full text-center sm:opacity-100 z-30 pt-5 flex transition-all
-					 overflow-none whitespace-no-wrap h-full sm:h-auto duration-300 sm:flex flex-col sm:items-end fixed sm:p-12 right-0
-					  top-0 sm:w-1/3 sm:text-right`}
-						onClick={() => setMobileNavOpen(false)}
-					>
-						<NavLink href="#top" active={true}>
-							Josef Vacek
-						</NavLink>
-						<NavLink href="#how">{t.translate("App.Menu.how")}</NavLink>
-						<NavLink href="#forwho">{t.translate("App.Menu.forwho")}</NavLink>
-						<NavLink href="#projects">{t.translate("App.Menu.projects")}</NavLink>
-						<NavLink href="#contact">{t.translate("App.Menu.contact")}</NavLink>
-						<TranslateButton
-							onClick={lang => {
-								props.i18nmanager.update({ locale: lang });
-							}}
-						/>
-					</nav>
-				</RemoveScroll>
-			</div>
-			<main className="max-w-4xl m-3 my-8 font-sans sm:mx-auto">
-				<div className="flex items-center justify-between px-3 sm:p-0 sm:block">
-					<h1 className="text-4xl text-center sm:text-6xl name md:text-left" id={"top"}>
-						Josef Vacek
-					</h1>
-					<button
-						className="sticky sm:hidden"
-						onClick={() => setMobileNavOpen(!mobileNavOpen)}
-					>
-						<svg
-							fill="none"
-							stroke="currentColor"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth="2"
-							viewBox="0 0 24 24"
-							className="w-8 h-8"
-						>
-							<path d="M4 6h16M4 12h16M4 18h16" />
-						</svg>
-					</button>
-				</div>
-
-				<div className="my-3">Full-stack web development</div>
-
-				<Section title={t.translate("App.Menu.how")} id={"how"}>
-					<ul>
-						<Technology>Typescript, ESNext</Technology>
-						<Technology>React.js, Next.js</Technology>
-						<Technology>Strapi</Technology>
-						<Technology>Modern CSS, TailwindCSS</Technology>
-						<Technology>Laravel</Technology>
-						<Technology>NodeJS, ExpressJS</Technology>
-						<Technology>Cypress, Jest</Technology>
-						<Technology>Git, -Hub, -Lab</Technology>
-					</ul>
-				</Section>
-				<Section title={t.translate("App.Menu.forwho")} id={"forwho"}>
-					<Client
-						name={"Abradatas"}
-						projects={
-							<>
-								<Project
-									name={t.translate("App.Projects.Evaluace.name")}
-									description={
-										<ul>
-											<li className="mb-2">
-												<Link href="https://form.evaluacevyuky.cz">
-													{t.translate("App.Projects.Evaluace.form")}
-												</Link>
-											</li>
-											<li className="mb-2">
-												<Link href="https://evaluacevyuky.cz">
-													{t.translate("App.Projects.Evaluace.landing")}
-												</Link>
-											</li>
-											<li className="mb-2">
-												<Link href="https://app.evaluacevyuky.cz/sample">
-													{t.translate("App.Projects.Evaluace.results")}
-												</Link>
-											</li>
-										</ul>
-									}
-								/>
-								<Project name={t.translate("App.Projects.TradingDashboard.name")} />
-							</>
-						}
-						date={[2019]}
-					/>
-					<Client
-						name={t.translate("App.Clients.Gytool.name")}
-						projects={
-							<>
-								<Project
-									name={t.translate("App.Projects.Zastupovani.name")}
-									description={
-										<ul>
-											<li className="mb-2">
-												<Link href="https://zastupovani.gytool.cz">
-													Deployment
-												</Link>
-											</li>
-											<li className="mb-2">
-												<Link href="https://github.com/JouzaLoL/better-zastupovani">
-													Code
-												</Link>
-											</li>
-										</ul>
-									}
-								/>
-							</>
-						}
-						date={[2017]}
-					/>
-					<Client
-						name={"Allerton's Automatica"}
-						projects={
-							<>
-								<Project
-									name={"Evolution Equity"}
-									description={
-										<Link href="https://evolutionequity.groadvertising.com">
-											Prezentační web
-										</Link>
-									}
-								/>
-
-								<Project
-									name={"Grinvald Footwear"}
-									description={
-										<Link href="https://grinvald.groadvertising.com">
-											Prezentační web
-										</Link>
-									}
-								/>
-
-								<Project
-									name={"emilia.digital"}
-									description={
-										<span>
-											Backend in Laravel with complex Instagram-API
-											integration
-										</span>
-									}
-								/>
-
-								<Project
-									name={"ava.digital"}
-									description={
-										<Link href="https://ava.digital">Landing page</Link>
-									}
-								/>
-							</>
-						}
-						date={[2019]}
-					/>
-				</Section>
-
-				<section className="my-12" id={"projects"}>
-					<a
-						className="relative inline-block mb-4 text-2xl text-gray-800"
-						href="https://github.com/JouzaLoL"
-					>
-						<span className="relative z-10">{t.translate("App.Menu.projects")}</span>
-						<div className="absolute bottom-0 z-0 w-full h-3 ml-3 bg-blue-200" />
-						<LinkIcon />
-					</a>
-				</section>
-
-				<Section title={t.translate("App.Menu.contact")} id={"contact"}>
-					<div className="flex flex-col ">
-						<Link href="tel:+420605981166">+420 605 98 11 66</Link>
-						<Link href="mailto:vacekj@outlook.com">vacekj@outlook.com</Link>
-						<Link href="https://www.linkedin.com/in/josef-v-19021b128/">LinkedIn</Link>
-					</div>
-				</Section>
-				<a
-					className="text-gray-500 hover:text-gray-600"
-					href={"https://www.github.com/JouzaLoL/portfolio"}
-				>
-					{t.translate("App.psst")}
-				</a>
-			</main>
-		</>
 	);
 }
 
