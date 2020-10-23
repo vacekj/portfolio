@@ -10,7 +10,8 @@
 
 # production
 /build
-
+.next
+out
 # tailwindcss generater files
 /src/styles.css
 

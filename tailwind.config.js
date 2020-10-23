@@ -1,4 +1,12 @@
 module.exports = {
+	purge: {
+		content: [
+			"./components/**/*.tsx",
+			"./pages/**/*.tsx",
+			"./components/**/*.tsx",
+			"./pages/**/*.tsx"
+		]
+	},
 	theme: {
 		extend: {},
 		backdropFilter: {

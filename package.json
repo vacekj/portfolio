@@ -3,54 +3,30 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fullhuman/postcss-purgecss": "^2.0.6",
-    "@shopify/react-i18n": "^2.5.5",
-    "@types/jest": "^24.0.0",
-    "@types/node": "^12.0.0",
-    "@types/react": "^16.9.0",
-    "@types/react-dom": "^16.9.0",
-    "autoprefixer": "^9.7.4",
-    "create-react-component-folder": "0.1.30",
-    "postcss-cli": "^7.1.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "next": "latest",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-remove-scroll": "^2.3.0",
     "react-router-dom": "5.1.2",
-    "react-scripts": "3.4.1",
-    "tailwindcss": "^1.2.0",
+    "rosetta": "^1.1.0",
+    "tailwindcss": "^1.9.5",
     "tailwindcss-children": "^2.0.0",
-    "tailwindcss-filters": "^3.0.0",
-    "typescript": "^4.0.3"
+    "tailwindcss-filters": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.21",
+    "@types/react": "^16.9.16",
+    "@types/react-dom": "^16.9.4",
+    "postcss-preset-env": "^6.7.0",
+    "prettier": "latest",
+    "tailwindcss": "^1.4.0",
+    "typescript": "latest",
+    "use-local-storage-state": "^5.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "build:styles": "postcss src/tailwind.css -o src/styles.css",
-    "prebuild": "NODE_ENV=production yarn build:styles",
-    "prestart": "yarn build:styles"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "crcf": [
-    "typescript",
-    "createindex",
-    "functional",
-    "notest",
-    "uppercase"
-  ]
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "type-check": "tsc"
+  }
 }
