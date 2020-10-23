@@ -17,6 +17,10 @@ const Layout: React.FunctionComponent<Props> = ({
 				name="viewport"
 				content="initial-scale=1.0, width=device-width"
 			/>
+			<meta
+				name="description"
+				content="Full-stack Web Developer Josef Vacek"
+			/>
 		</Head>
 		{children}
 	</div>

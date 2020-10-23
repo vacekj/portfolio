@@ -19,7 +19,6 @@
     "@types/react-dom": "^16.9.4",
     "postcss-preset-env": "^6.7.0",
     "prettier": "latest",
-    "tailwindcss": "^1.4.0",
     "typescript": "latest",
     "use-local-storage-state": "^5.1.0"
   },
