@@ -5,9 +5,11 @@ import { GetStaticProps } from "next";
 import { RemoveScroll } from "react-remove-scroll";
 import strings from "../utils/strings";
 import useTranslation from "utils/useTranslation";
+import { useRouter } from "next/router";
 
 function Index() {
-	const [t, locale] = useTranslation(strings);
+	const { locale } = useRouter();
+	const [t, setLocale] = useTranslation(strings);
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
 	return (
@@ -36,8 +38,8 @@ function Index() {
 							{t("App.Menu.contact")}
 						</NavLink>
 						<TranslateButton
-							onClick={lang => {
-								locale(lang);
+							onClick={() => {
+								setLocale(locale === "cs" ? "en" : "cs");
 							}}
 						/>
 					</nav>
@@ -383,20 +385,16 @@ function Technology(
 }
 
 interface TranslateButtonProps {
-	onClick: (lang: string) => void;
+	onClick: () => void;
 }
 
 function TranslateButton(props: TranslateButtonProps) {
-	const [lang, setLang] = useState("cs");
+	const { locale } = useRouter();
 
 	return (
 		<button
 			className="inline-block mt-3 focus:outline-none blurredbg"
-			onClick={() => {
-				const newLang = lang === "en" ? "cs" : "en";
-				setLang(newLang);
-				props.onClick(newLang);
-			}}
+			onClick={props.onClick}
 		>
 			<svg
 				fill="none"
@@ -411,7 +409,7 @@ function TranslateButton(props: TranslateButtonProps) {
 			</svg>
 			<span
 				className={`hover:text-gray-800 duration-250 ease-in-out ${
-					lang === "en" ? "text-gray-900" : "text-gray-500"
+					locale === "en" ? "text-gray-900" : "text-gray-500"
 				}`}
 			>
 				en
@@ -419,7 +417,7 @@ function TranslateButton(props: TranslateButtonProps) {
 			<span className="mx-1 text-gray-500">/</span>
 			<span
 				className={`hover:text-gray-800 duration-250 ease-in-out ${
-					lang === "cs" ? "text-gray-900" : "text-gray-500"
+					locale === "cs" ? "text-gray-900" : "text-gray-500"
 				}`}
 			>
 				cs
@@ -447,8 +445,8 @@ function LinkIcon() {
 export const getStaticProps: GetStaticProps = async () => {
 	return {
 		props: {
-			strings
-		}
+			strings,
+		},
 	};
 };
 
