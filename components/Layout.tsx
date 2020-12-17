@@ -7,7 +7,7 @@ type Props = {
 
 const Layout: React.FunctionComponent<Props> = ({
 	children,
-	title = "Josef Vacek - Full-stack Web Developer"
+	title = "Josef Vacek - Full-stack Web Developer",
 }) => (
 	<div>
 		<Head>
