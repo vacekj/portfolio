@@ -18,15 +18,16 @@ export default function useTranslation(
 	/*If there is a user-set locale and we are not on it, redirect to it*/
 	const router = useRouter();
 	const cookieLocale = getLocaleCookie();
-	if (
-		cookieLocale &&
-		validLocales.includes(cookieLocale as Locale) &&
-		router.locale !== cookieLocale
-	) {
-		router.replace(router.pathname, undefined, {
-			locale: cookieLocale,
-		});
-	}
+	// if (
+	// 	cookieLocale &&
+	// 	validLocales.includes(cookieLocale as Locale) &&
+	// 	router.locale !== cookieLocale
+	// ) {
+	// 	setLocaleCookie(cookieLocale as Locale);
+	// 	router.replace(router.pathname, undefined, {
+	// 		locale: cookieLocale,
+	// 	});
+	// }
 
 	const [i18n] = useState(rosetta(translations));
 	i18n.locale(router.locale);
@@ -36,7 +37,7 @@ export default function useTranslation(
 		(locale: Locale) => {
 			setLocaleCookie(locale);
 			return router.replace(router.pathname, undefined, {
-				locale: cookieLocale,
+				locale: locale,
 			});
 		},
 	];
