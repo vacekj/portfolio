@@ -1,21 +1,21 @@
 module.exports = {
 	purge: {
-		content: [
-			"./components/**/*.tsx",
-			"./pages/**/*.tsx",
-			"./components/**/*.tsx",
-			"./pages/**/*.tsx"
-		]
+		content: ["./components/**/*.tsx", "./pages/**/*.tsx"],
 	},
 	theme: {
-		extend: {},
+		extend: {
+			screens: {
+				print: { raw: "print" },
+			},
+		},
 		backdropFilter: {
-			blur: "blur(20px)"
-		}
+			blur: "blur(20px)",
+		},
 	},
 	variants: {
 		padding: ["responsive", "hover"],
-		width: ["responsive", "hover"]
+		width: ["responsive", "hover"],
 	},
-	plugins: [require("tailwindcss-filters")]
+	darkMode: "class",
+	plugins: [require("tailwindcss-filters")],
 };
