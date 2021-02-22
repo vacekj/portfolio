@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Layout from "../components/Layout";
 import { GetStaticProps } from "next";
 import { RemoveScroll } from "react-remove-scroll";
@@ -126,9 +126,12 @@ export function ForWho() {
 }
 
 function Index() {
-	const { locale } = useRouter();
+	const router = useRouter();
 	const [t, setLocale] = useTranslation(strings);
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
+	const changeLang = useCallback(() => {
+		setLocale(router.locale === "cs" ? "en" : "cs");
+	}, [router]);
 	return (
 		<Layout>
 			<div className="relative w-full">
@@ -157,11 +160,7 @@ function Index() {
 						<NavLink href="#contact">
 							{t("App.Menu.contact")}
 						</NavLink>
-						<TranslateButton
-							onClick={() => {
-								setLocale(locale === "cs" ? "en" : "cs");
-							}}
-						/>
+						<TranslateButton onClick={changeLang} />
 					</nav>
 				</RemoveScroll>
 			</div>
