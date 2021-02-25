@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Layout from "../components/Layout";
+import Layout from "components/Layout";
 import { GetStaticProps } from "next";
 import { RemoveScroll } from "react-remove-scroll";
-import strings from "../utils/strings";
+import strings from "utils/strings";
 import useTranslation from "utils/useTranslation";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
