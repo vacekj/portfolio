@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
 import rosetta from "rosetta";
-import {
-	getLocaleCookie,
-	Locale,
-	setLocaleCookie,
-	validLocales,
-} from "./locale";
 import { useRouter } from "next/router";
-const isBrowser = typeof window !== "undefined";
 
 /**
  * Returns a function for getting translations and a setPreferredLocale function that persists the locale to a cookie
@@ -18,31 +11,12 @@ const isBrowser = typeof window !== "undefined";
  */
 export default function useTranslation(
 	translations: Record<string, any>
-): [(key: string) => string, (locale: Locale) => void] {
-	const router = useRouter();
+): [(key: string) => string] {
 	const [i18n] = useState(rosetta(translations));
-
-	/* Ensure we are on the correct locale based on cookie */
-	useEffect(() => {
-		const cookieLocale = getLocaleCookie();
-		if (
-			cookieLocale &&
-			validLocales.includes(cookieLocale as Locale) &&
-			router.locale !== cookieLocale
-		) {
-			router.replace(router.pathname, router.pathname, {
-				locale: cookieLocale,
-			});
-		}
-	}, [isBrowser ? document.cookie : undefined]);
-
+	const { locale } = useRouter();
 	return [
 		(key: string) => {
-			return i18n.t(key, undefined, router.locale);
-		},
-		(locale: Locale) => {
-			/* This will change the locale cookie, which will trigger a re-render*/
-			setLocaleCookie(locale);
+			return i18n.t(key, undefined, locale);
 		},
 	];
 }
