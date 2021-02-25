@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import Layout from "../components/Layout";
 import { GetStaticProps } from "next";
 import { RemoveScroll } from "react-remove-scroll";
@@ -126,12 +126,8 @@ export function ForWho() {
 }
 
 function Index() {
-	const router = useRouter();
-	const [t, setLocale] = useTranslation(strings);
+	const [t] = useTranslation(strings);
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
-	const changeLang = useCallback(() => {
-		setLocale(router.locale === "cs" ? "en" : "cs");
-	}, [router]);
 	return (
 		<Layout>
 			<div className="relative w-full">
@@ -160,7 +156,7 @@ function Index() {
 						<NavLink href="#contact">
 							{t("App.Menu.contact")}
 						</NavLink>
-						<TranslateButton onClick={changeLang} />
+						<TranslateButton />
 					</nav>
 				</RemoveScroll>
 			</div>
@@ -250,11 +246,9 @@ function NavLink(props: React.ComponentProps<"a">) {
 		<a
 			href={props.href}
 			onClick={props.onClick}
-			className={`z-50 navlink relative text-3xl dark:hover:text-gray-200 hover:text-gray-800 duration-200 ease-in-out transition mb-3 ${
-				false
-					? "text-gray-900 dark:text-gray-100"
-					: "text-gray-600 dark:text-gray-500"
-			} ${props.className}`}
+			className={`z-50 navlink relative text-3xl dark:hover:text-gray-200 hover:text-gray-800 duration-200 ease-in-out transition mb-3 ${"text-gray-600 dark:text-gray-500"} ${
+				props.className
+			}`}
 		>
 			{props.children}
 			<div className="absolute bottom-0 z-0 hidden w-0 h-3 ml-3 transition-all duration-200 ease-out dark:bg-blue-900 bg-blue-200 opacity-75 sm:block stripe" />
@@ -391,18 +385,11 @@ function Technology(
 	);
 }
 
-interface TranslateButtonProps {
-	onClick: () => void;
-}
-
-function TranslateButton(props: TranslateButtonProps) {
+function TranslateButton() {
 	const { locale } = useRouter();
 
 	return (
-		<button
-			className="inline-block mt-3 focus:outline-none blurredbg"
-			onClick={props.onClick}
-		>
+		<div className="inline-block mt-3 focus:outline-none blurredbg">
 			<svg
 				fill="none"
 				stroke="currentColor"
@@ -414,26 +401,30 @@ function TranslateButton(props: TranslateButtonProps) {
 			>
 				<path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
 			</svg>
-			<span
+			<a
 				className={`hover:text-gray-800 duration-250 ease-in-out ${
 					locale === "en"
 						? "dark:text-gray-100 text-gray-900"
 						: "text-gray-500"
 				}`}
 			>
-				en
-			</span>
+				<NextLink href={"/"} locale={"en"}>
+					en
+				</NextLink>
+			</a>
 			<span className="mx-1 text-gray-500">/</span>
-			<span
+			<a
 				className={`hover:text-gray-800 duration-250 ease-in-out ${
 					locale === "cs"
 						? "text-gray-900 dark:text-gray-100 "
 						: "text-gray-500"
 				}`}
 			>
-				cs
-			</span>
-		</button>
+				<NextLink href={"/"} locale={"cs"}>
+					cs
+				</NextLink>
+			</a>
+		</div>
 	);
 }
 

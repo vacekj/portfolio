@@ -112,7 +112,7 @@ function App() {
 					<div className="my-3 flex w-full items-center">
 						<img
 							className="print:w-24 mr-10 w-40 w-40 rounded-full border-gray-200 border-4"
-							src={"/profile_pic.jpg"}
+							src={"/profile.png"}
 							alt="Profilová fotka"
 						/>
 						<ul className="w-1/2 print:w-full">
